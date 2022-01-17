@@ -1,5 +1,3 @@
-su - lfs
-source .bash_profile
 source .bashrc
 mkdir -v $LFS/build
 cd $LFS/build
