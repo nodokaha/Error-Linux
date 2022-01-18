@@ -8,7 +8,7 @@ popd
 cd $LFS
 mkdir -pv $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
 for i in bin lib sbin; do
-ln -sv $LFS/usr/$i $LFS/$i
+if [ ! -d $i ]; then ln -sv usr/$i $LFS/$i; fi
 done
 case $(uname -m) in
 x86_64) mkdir -pv $LFS/lib64 ;;
