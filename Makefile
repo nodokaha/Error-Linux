@@ -1,11 +1,15 @@
-setup:
-	./setup.sh
-	./build.sh
+build_toolchain: setup
+	./build_toolchain.sh
+
+nodownload_build_toolchain: setup_nodownload
+	./build_toolchain.sh
 
 setup_nodownload:
 	./setup_nodownload.sh
-	./build.sh
+
+setup: 
+	./setup.sh
 
 clean:
-	rm -rf usr bin boot etc lib media mnt opt proc root run sbin sources
-
+	mv lfs/sources .
+	rm -rf lfs
