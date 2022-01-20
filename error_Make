@@ -1,0 +1,8 @@
+setup: etcs
+       ./error_setup.sh
+
+etcs: dirs
+	./etcs.sh
+
+dirs:
+	./dirs.sh
