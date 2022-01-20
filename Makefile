@@ -1,6 +1,9 @@
-all: build_tier3
+all: build_tier4
 	echo "Finish!"
 	echo "Please! ./root_chroot.sh or ./user_chroot.sh !!"
+
+build_tier4: build_tier3
+	./build_tier4.sh
 
 build_tier3: build_tier2
 	./build_tier3.sh
