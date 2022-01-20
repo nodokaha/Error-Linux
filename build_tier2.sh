@@ -1,6 +1,8 @@
 source $(pwd)/.bashrc
 cd $LFS/build
+if [ ! -d $LFS/build/gcc-11.2.0 ]; then tar xvf $LFS/sources/gcc*; fi
 cd gcc-11.2.0
+mkdir -v build
 cd build
 ../libstdc++-v3/configure --host=$LFS_TGT --build=$(../config.guess) --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/11.2.0
 make
