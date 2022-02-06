@@ -51,3 +51,6 @@ mkdir -pv /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.2 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
+find /usr/{lib,libexec} -name \*.la -delete
+rm -rf /tools
+echo "If you create backup, please exit!"
