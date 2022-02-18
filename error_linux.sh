@@ -177,3 +177,41 @@ make check
 make install
 ln -sv flex /usr/bin/lex
 cd /build
+tar xvf /sources/tcl8.6.11-src.tar.gz
+cd tcl8.6.11-src
+tar -xf /sources/tcl8.6.11-html.tar.gz --strip-components=1
+SRCDIR=$(pwd)
+cd unix
+./configure --prefix=/usr --mandir=/usr/share/man $([ "$(uname -m)" = x86_64 ] && echo --enable-64bit)
+make
+sed -e "s|$SRCDIR/unix|/usr/lib|" -e "s|$SRCDIR|/usr/include|" -i tclConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/tdbc1.1.2|/usr/lib/tdbc1.1.2|" -e "s|$SRCDIR/pkgs/tdbc1.1.2/generic|/usr/include|" -e "s|$SRCDIR/pkgs/tdbc1.1.2/library|/usr/lib/tcl8.6|" -e "s|$SRCDIR/pkgs/tdbc1.1.2|/usr/include|" -i pkgs/tdbc1.1.2/tdbcConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/itcl4.2.1|/usr/lib/itcl4.2.1|" -e "s|$SRCDIR/pkgs/itcl4.2.1/generic|/usr/include|" -e "s|$SRCDIR/pkgs/itcl4.2.1|/usr/include|" -i pkgs/itcl4.2.1/itclConfig.sh
+unset SRCDIR
+make test
+make install
+chmod -v u+w /usr/lib/libtcl8.6.so
+make install-private-headers
+ln -sfv tclsh8.6 /usr/bin/tclsh
+mv /usr/share/man/man3/{Thread,Tcl_Thread}.3
+cd /build
+tar xvf /sources/expect*
+cd expect-5.45.4
+./configure --prefix=/usr --with-tcl=/usr/lib --enable-shared --mandir=/usr/share/man --with-tclinclude=/usr/include
+make
+make test
+make install
+ln -svf expect5.45.4/libexpect5.45.4.so /usr/lib
+d /build
+tar xvf /sources/dejagnu*
+cd dejagnu-1.6.3
+mkdir -v build
+cd build
+../configure --prefix=/usr
+makeinfo --html --no-split -o doc/dejagnu.html ../doc/dejagnu.texi
+makeinfo --plaintext -o doc/dejagnu.txt ../doc/dejagnu.texi
+make install
+install -v -dm755 /usr/share/doc/dejagnu-1.6.3
+install -v -m644 doc/dejagnu.{html,txt} /usr/share/doc/dejagnu-1.6.3
+make check
+cd /build
