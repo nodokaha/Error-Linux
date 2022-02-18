@@ -19,4 +19,5 @@ sudo cp $(pwd)/dirs.sh $LFS/root/
 sudo cp $(pwd)/etcs.sh $LFS/root/
 sudo cp $(pwd)/error_setup.sh $LFS/root/
 sudo cp $(pwd)/error_Make $LFS/root/Makefile
+sudo cp $(pwd)/error_linux.sh $LFS/root/
 sudo chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" PS1='(lfs chroot) \u:\w\$ ' PATH=/usr/bin:/usr/sbin /bin/bash --login +h
