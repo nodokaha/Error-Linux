@@ -1,5 +1,7 @@
 source $(pwd)/.bashrc
 cd $LFS/build
+rm -rf gcc-*
+rm -rf binutils-*
 if [ ! -d $LFS/build/binutils-2.37 ]; then tar xvf $LFS/sources/binutils*.xz; fi
 cd binutils-2.37
 mkdir -v build
