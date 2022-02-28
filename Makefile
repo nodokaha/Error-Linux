@@ -21,5 +21,6 @@ setup:
 	./setup.sh
 
 clean:
+	sudo chown $(shell users):$(shell users) -R lfs
 	mv lfs/sources .
 	rm -rf lfs

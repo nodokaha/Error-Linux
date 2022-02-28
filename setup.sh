@@ -1,10 +1,13 @@
 #!/bin/bash
 export LFS=$(pwd)/lfs
-if [ ! -d $LFS/sources ]; then 
-mkdir -p lfs/sources
+mkdir -p $LFS/sources
 chmod -v a+wt $LFS/sources
-wget --input-file=wget-list --continue --directory-prefix=$LFS/sources
+if [ -d $(pwd)/sources ]; then 
+    mv $(pwd)/sources $LFS/
+else
+    wget --input-file=wget-list --continue --directory-prefix=$LFS/sources
 fi
+
 pushd $LFS/sources
 md5sum -c ../../md5sums
 popd
