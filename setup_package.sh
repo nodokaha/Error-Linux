@@ -148,6 +148,7 @@ install -vDm644 data/shell-completions/bash/meson /usr/share/bash-completion/com
 install -vDm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 cd /build
 tar xvf /sources/coreutils-8.32.tar.xz
+cd coreutils-8.32
 patch -Np1 -i /sources/coreutils-8.32-i18n-1.patch
 autoreconf -fiv
 FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --enable-no-install-program=kill,uptime
