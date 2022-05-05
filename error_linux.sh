@@ -409,4 +409,10 @@ lassign [wait] _ _ _ value
 exit $value
 EOF
 make install
+cd /root
+rm error_setup.sh
+rm error_linux.sh
+rm etcs.sh
+rm dirs.sh
+sed -e "1,2s/error_setup//" -i Makefile
 exec /bin/bash --login +h

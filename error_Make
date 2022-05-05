@@ -1,3 +1,6 @@
+error_package: error_setup
+	     ./setup_package.sh
+
 error_setup: error_etcs
 	     ./error_setup.sh
 	     ./error_linux.sh
