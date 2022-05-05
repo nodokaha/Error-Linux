@@ -24,3 +24,17 @@ clean:
 	sudo chown $(shell users):$(shell users) -R lfs
 	mv lfs/sources .
 	rm -rf lfs
+
+create-img:
+	sudo modprobe nbd
+	sudo qemu-img create -f qcow2 error.img 4G
+	sudo qemu-nbd -c /dev/nbd0 error.img
+	sudo parted /dev/nbd0 --script "mklabel msdos mkpart primary 1M 257M mkpart primary 257M 4G print quit"
+	sudo mkfs.vfat /dev/nbd0p1 -n "BOOT"
+	sudo mkfs.ext4 /dev/nbd0p2 -L "ROOT"
+	sudo mount -o loop /dev/nbd0p2 /mnt
+	sudo mkdir -p /mnt/boot
+	sudo mount -o loop /dev/nbd0p1 /mnt/boot
+	sudo rm -rf lfs/build
+	sudo mv lfs/* /mnt/
+	
