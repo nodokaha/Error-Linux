@@ -129,9 +129,8 @@ install -v -dm755 /usr/share/doc/python-3.9.6/html
 tar --strip-components=1 --no-same-owner --no-same-permissions -C /usr/share/doc/python-3.9.6/html -xvf /sources/python-3.9.6-docs-html.tar.bz2
 cd /build
 tar xvf /sources/ninja*
-cd nina-1.10.2
-sed -i '/int Guess/a int
-j = 0; char* jobs = getenv( "NINJAJOBS" ); if ( jobs != NULL ) j = atoi( jobs ); if ( j > 0 ) return j;' src/ninja.cc
+cd ninja-1.10.2
+sed -e '/int Guess/a int j = 0; char* jobs = getenv( "NINJAJOBS" ); if ( jobs != NULL ) j = atoi( jobs ); if ( j > 0 ) return j;' -i src/ninja.cc
 python3 configure.py --bootstrap
 ./ninja ninja_test
 ./ninja_test --gtest_filter=-SubprocessTest.SetWithLots

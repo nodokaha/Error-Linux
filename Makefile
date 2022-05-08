@@ -37,4 +37,6 @@ create-img:
 	sudo mount -o loop /dev/nbd0p1 /mnt/boot
 	sudo rm -rf lfs/build
 	sudo mv lfs/* /mnt/
-	
+	sudo umount /mnt/boot
+	sudo umount /mnt
+	sudo qemu-nbd -d /dev/nbd0
