@@ -101,7 +101,7 @@ EOF
 mkdir -pv /etc/ld.so.conf.d
 cd /build
 tar xvf /sources/zlib*
-cd zlib-1.2.11
+cd zlib-1.2.12
 ./configure --prefix=/usr
 make
 make check

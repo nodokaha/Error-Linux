@@ -79,7 +79,7 @@ https://anduin.linuxfromscratch.org/LFS/udev-lfs-20171102.tar.xz
 http://ftp.riken.jp/Linux/kernel.org/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-2.46.tar.gz
 https://tukaani.org/xz/xz-5.2.5.tar.xz
-https://zlib.net/zlib-1.2.11.tar.xz
+https://zlib.net/zlib-1.2.12.tar.xz
 https://github.com/facebook/zstd/releases/download/v1.5.0/zstd-1.5.0.tar.gz
 https://www.linuxfromscratch.org/patches/lfs/11.0/binutils-2.37-upstream_fix-1.patch
 https://www.linuxfromscratch.org/patches/lfs/11.0/bzip2-1.0.8-install_docs-1.patch
