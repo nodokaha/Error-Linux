@@ -47,3 +47,10 @@ package-new:
 
 pkgmgr-build:
 	cd packages/pkgmgr && ./build.sh
+
+
+dist-build:
+	./distro_manage.sh build-all
+
+dist-assemble:
+	./distro_manage.sh assemble
