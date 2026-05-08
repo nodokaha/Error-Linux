@@ -40,3 +40,6 @@ create-img:
 	sudo umount /mnt/boot
 	sudo umount /mnt
 	sudo qemu-nbd -d /dev/nbd0
+package-new:
+	./package_new.sh $(name) $(version)
+
