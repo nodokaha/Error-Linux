@@ -1,4 +1,4 @@
-all: dist-build
+all: build_tier4
 	echo "Finish!"
 	echo "Please! ./root_chroot.sh or ./user_chroot.sh !!"
 
