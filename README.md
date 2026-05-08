@@ -42,3 +42,20 @@ make pkgmgr-build
 ```
 
 `packages/pkgmgr/out/` に `pkgmgr-*.tar.zst` が出力されます。
+
+
+## ディストリビューション管理フロー
+
+従来の `Makefile` による tier ビルドに加えて、
+`pkgmgr` ベースでディストリビューションを構成するスクリプトを追加しました。
+
+```bash
+# プロファイルで指定した全パッケージをビルド
+./distro_manage.sh build-all
+
+# 生成済みパッケージを rootfs へインストールして構成
+./distro_manage.sh assemble
+```
+
+プロファイルは `distribution/profiles/base.list` を編集して管理します。
+`make dist-build` / `make dist-assemble` からも同じ処理を実行できます。
