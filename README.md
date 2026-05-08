@@ -30,3 +30,15 @@ make package-new name=hello version=2.12.1
 - `package.conf`: パッケージ情報（URL, checksum, 依存関係）
 - `build.sh`: ダウンロード・ビルド・パッケージングのたたき台
 - `README.md`: 調整手順
+
+
+## pkgmgr（試作パッケージマネージャー）
+
+新規追加した `package_new.sh` で雛形を作成し、
+`packages/pkgmgr` に最小構成のパッケージ管理ツールを実装しました。
+
+```bash
+make pkgmgr-build
+```
+
+`packages/pkgmgr/out/` に `pkgmgr-*.tar.zst` が出力されます。

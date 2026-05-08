@@ -43,3 +43,7 @@ create-img:
 package-new:
 	./package_new.sh $(name) $(version)
 
+
+
+pkgmgr-build:
+	cd packages/pkgmgr && ./build.sh
