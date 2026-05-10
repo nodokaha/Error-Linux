@@ -58,4 +58,11 @@ make pkgmgr-build
 ```
 
 プロファイルは `distribution/profiles/base.list` を編集して管理します。
+
+ベースプロファイルには既存の `setup.sh` / `build_toolchain.sh` / `build_tier1.sh` 〜 `build_tier4.sh` を
+`script:` エントリとして移行済みです。
+
+- `script:<path>`: リポジトリ内スクリプトを実行
+- `pkg:<name>`（または `name`）: `packages/<name>/build.sh` を使ってパッケージをビルド
+
 `make dist-build` / `make dist-assemble` からも同じ処理を実行できます。

@@ -15,10 +15,10 @@ Usage:
   $0 assemble [profile.list] [rootdir]
   $0 list [profile.list]
 
-Examples:
-  $0 build pkgmgr
-  $0 build-all
-  $0 assemble distribution/profiles/base.list /tmp/error-root
+Profile entry formats:
+  pkg:<name>       build/install package from packages/<name>
+  script:<path>    execute script relative to repository root
+  <name>           shorthand of pkg:<name>
 USAGE
 }
 
@@ -35,10 +35,30 @@ resolve_profile() {
   echo "$p"
 }
 
-list_packages() {
+list_profile_entries() {
   local profile="$1"
   require_file "$profile"
   sed -e 's/#.*//' -e '/^\s*$/d' "$profile"
+}
+
+entry_kind() {
+  local entry="$1"
+  if [[ "$entry" == script:* ]]; then
+    echo script
+  else
+    echo pkg
+  fi
+}
+
+entry_value() {
+  local entry="$1"
+  if [[ "$entry" == script:* ]]; then
+    echo "${entry#script:}"
+  elif [[ "$entry" == pkg:* ]]; then
+    echo "${entry#pkg:}"
+  else
+    echo "$entry"
+  fi
 }
 
 build_package() {
@@ -48,15 +68,30 @@ build_package() {
   [[ -d "$pkg_dir" ]] || { echo "unknown package: $name"; exit 1; }
   require_file "$build_sh"
 
-  echo "==> build: $name"
+  echo "==> build package: $name"
   (cd "$pkg_dir" && ./build.sh)
+}
+
+run_script_entry() {
+  local script_rel="$1"
+  local script_path="$ROOT_DIR/$script_rel"
+  require_file "$script_path"
+  echo "==> run script: $script_rel"
+  (cd "$ROOT_DIR" && bash "$script_path")
 }
 
 build_all() {
   local profile="$1"
-  while IFS= read -r pkg; do
-    build_package "$pkg"
-  done < <(list_packages "$profile")
+  while IFS= read -r entry; do
+    local kind value
+    kind="$(entry_kind "$entry")"
+    value="$(entry_value "$entry")"
+
+    case "$kind" in
+      pkg) build_package "$value" ;;
+      script) run_script_entry "$value" ;;
+    esac
+  done < <(list_profile_entries "$profile")
 }
 
 latest_archive() {
@@ -71,18 +106,27 @@ assemble_rootfs() {
   local rootdir="$2"
   mkdir -p "$rootdir"
 
-  while IFS= read -r pkg; do
-    local archive
-    archive="$(latest_archive "$pkg" || true)"
-    if [[ -z "$archive" ]]; then
-      echo "archive not found for $pkg. building package first..."
-      build_package "$pkg"
-      archive="$(latest_archive "$pkg")"
+  while IFS= read -r entry; do
+    local kind value
+    kind="$(entry_kind "$entry")"
+    value="$(entry_value "$entry")"
+
+    if [[ "$kind" == script ]]; then
+      echo "skip script entry in assemble: $value"
+      continue
     fi
 
-    echo "==> install: $archive"
+    local archive
+    archive="$(latest_archive "$value" || true)"
+    if [[ -z "$archive" ]]; then
+      echo "archive not found for $value. building package first..."
+      build_package "$value"
+      archive="$(latest_archive "$value")"
+    fi
+
+    echo "==> install package: $archive"
     PKGMGR_DB_DIR="$rootdir/var/lib/pkgmgr" PKGMGR_ROOT_DIR="$rootdir" "$PKGMGR_BIN" install "$archive"
-  done < <(list_packages "$profile")
+  done < <(list_profile_entries "$profile")
 }
 
 main() {
@@ -108,7 +152,7 @@ main() {
       ;;
     list)
       [[ $# -le 2 ]] || { usage; exit 1; }
-      list_packages "$(resolve_profile "${2:-}")"
+      list_profile_entries "$(resolve_profile "${2:-}")"
       ;;
     *)
       usage

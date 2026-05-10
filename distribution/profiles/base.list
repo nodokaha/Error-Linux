@@ -1,2 +1,8 @@
 # Error-Linux distribution base profile
-pkgmgr
+script:setup.sh
+script:build_toolchain.sh
+script:build_tier1.sh
+script:build_tier2.sh
+script:build_tier3.sh
+script:build_tier4.sh
+pkg:pkgmgr
